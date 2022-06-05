@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  api:
+    build: ./api
+    env_file:
+      - ./environment/api.env
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    command: node server.js
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    env_file:
+      - ./environment/mongodb.env
+    volumes:
+      - astro-mongo-storage:/data/db
+    ports:
+      - 27017:27017
+
+volumes:
+  astro-mongo-storage:
